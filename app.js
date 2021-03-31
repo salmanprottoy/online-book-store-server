@@ -22,15 +22,15 @@ client.connect((err) => {
   const ordersCollection = client.db("onlineBookStore").collection("orders");
 
   app.post("/addBook", (req, res) => {
-    const books = req.body;
-    booksCollection.insertOne(books).then((result) => {
-      console.log(result);
-      res.send(result);
+    const book = req.body;
+    booksCollection.insertOne(book).then((result) => {
+      console.log(result.insertedCount);
+      res.send(result.insertedCount > 0);
     });
   });
 
   app.get("/books", (req, res) => {
-    booksCollection.find({}).toArray((err, documents) => {
+    booksCollection.find().toArray((err, documents) => {
       res.send(documents);
     });
   });
