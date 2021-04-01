@@ -35,6 +35,12 @@ client.connect((err) => {
     });
   });
 
+  app.get("/orders", (req, res) => {
+    ordersCollection.find().toArray((err, documents) => {
+      res.send(documents);
+    });
+  });
+
   app.get("/book/:key", (req, res) => {
     //console.log(req.params.id);
     booksCollection.find({ key: req.params.key }).toArray((err, documents) => {
