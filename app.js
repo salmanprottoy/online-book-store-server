@@ -12,6 +12,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
 const MongoClient = require("mongodb").MongoClient;
+const ObjectId = require("mongodb").ObjectId;
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.yorqu.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, {
   useNewUrlParser: true,
@@ -47,6 +48,14 @@ client.connect((err) => {
       res.send(documents[0]);
       //console.log(err);
     });
+  });
+
+  app.delete("/delete/:id", (req, res) => {
+    booksCollection
+      .deleteOne({ _id: ObjectId(req.params.id) })
+      .then((result) => {
+        console.log(result);
+      });
   });
 
   app.post("/booksByKeys", (req, res) => {
